@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+
+  ml_service:
+
+    # собираем контейнер из Dockerfile
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+
+    container_name: heat_exchange_ml
+
+    # пробрасываем порт API
+    ports:
+      - "8000:8000"
+
+    # монтируем папку с моделями
+    volumes:
+      - ../models:/app/models
+
+    # переменные окружения
+    environment:
+      - MODEL_PATH=/app/models/latest_model.pkl
+
+    restart: always

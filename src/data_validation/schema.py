@@ -1,18 +1,29 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
+from typing import Optional
 
 
-class SensorInput(BaseModel):
+class ScenarioInput(BaseModel):
+    # статические признаки
+    coolant_type: str
+    wall_material: str
+    hydraulic_diameter: float
+    channel_length: float
 
-    temperature_inlet: float = Field(..., ge=0, le=1200)
+    # режимные признаки
+    inlet_temperature: float
+    pressure: float
+    mass_flux: float
+    heat_flux: float
+    flow_velocity: float
 
-    temperature_outlet: float = Field(..., ge=0, le=1200)
+    # сигнальные признаки
+    wall_temp_mean: Optional[float]
+    wall_temp_gradient: Optional[float]
+    acoustic_rms: Optional[float]
+    peak_frequency: Optional[float]
+    bubble_detachment_freq: Optional[float]
+    vapor_area_ratio: Optional[float]
 
-    heat_flux: float = Field(..., ge=0)
-
-    flow_rate: float = Field(..., gt=0)
-
-    pressure: float = Field(..., gt=0)
-
-    wall_temperature: float = Field(..., ge=0, le=1500)
-
-    time_since_start: float = Field(..., ge=0)
+    # служебные
+    solver_residual: Optional[float]
+    convergence_iterations: Optional[int]

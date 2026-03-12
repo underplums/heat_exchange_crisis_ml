@@ -1,0 +1,30 @@
+name: deploy-model
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # билд docker образа
+      - name: Build docker image
+        run: |
+          docker build -t heat-exchange-ml -f docker/Dockerfile .
+
+      # пуш в registry
+      - name: Push docker image
+        run: |
+          echo "Pushing image to registry..."
+
+      # деплой в Cybernetis
+      - name: Deploy to Cybernetis
+        run: |
+          echo "Applying cybernetis_config.yaml"

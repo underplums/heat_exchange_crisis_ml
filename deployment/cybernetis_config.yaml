@@ -1,0 +1,38 @@
+# Название ML сервиса
+service_name: heat-exchange-crisis-ml
+
+# Версия модели
+model_version: v1
+
+# Docker образ
+image: registry.company.ru/heat-exchange-ml:latest
+
+# ресурсы контейнера
+resources:
+
+  cpu: "2"
+  memory: "4Gi"
+
+# порт API
+service:
+
+  port: 8000
+  protocol: http
+
+# healthcheck endpoint
+healthcheck:
+
+  path: /health
+  interval_seconds: 30
+
+# переменные окружения
+environment:
+
+  MODEL_PATH: /models/latest_model.pkl
+  CONFIG_PATH: /app/src/config/config.yaml
+
+# autoscaling
+scaling:
+
+  min_replicas: 1
+  max_replicas: 5

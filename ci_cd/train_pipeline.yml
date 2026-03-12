@@ -1,0 +1,39 @@
+name: train-model
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+
+  train:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      # скачиваем репозиторий
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # устанавливаем python
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.10
+
+      # устанавливаем зависимости
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      # запуск пайплайна обучения
+      - name: Run training pipeline
+        run: |
+          python src/pipelines/train_pipeline.py
+
+      # логирование модели в MLflow
+      - name: Upload model artifact
+        run: |
+          echo "Model saved to registry"
